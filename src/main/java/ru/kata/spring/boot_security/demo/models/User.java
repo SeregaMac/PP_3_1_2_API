@@ -5,6 +5,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -20,22 +21,23 @@ public class User implements UserDetails {  //надо добавить импл
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
     @NotEmpty(message = "Введите имя")
     @Size(min = 3, max = 12, message = "Размер имени от 3 до 12")
-    @Column
     private String name;
+
     @NotEmpty(message = "Введите фамилию")
     @Size(min = 3, max = 12, message = "Размер фамилии от 3 до 12")
-    @Column
     private String surname;
+
     @Min(value = 7, message = "Количество лет не должно быть меньше 7")
-    @Column
     private int age;
 
-    @Column//(unique = true)
+    @Column(unique = true)
+    @Email(message = "Вы ввели не коректный email")
     private String username;
 
-    @Column
+
     private String password;
 
     @ManyToMany
@@ -48,10 +50,12 @@ public class User implements UserDetails {  //надо добавить импл
     public User() {
     }
 
-    public User(String name, String surname, int age) {
-        this.surname = surname;
+    public User(String name, String surname, int age, String username, String password) {
         this.name = name;
+        this.surname = surname;
         this.age = age;
+        this.username = username;
+        this.password = password;
     }
 
     public List<Role> getRoles() {
