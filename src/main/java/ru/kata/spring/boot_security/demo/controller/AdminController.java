@@ -6,7 +6,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
 import ru.kata.spring.boot_security.demo.service.RoleService;
 import ru.kata.spring.boot_security.demo.service.UserService;
 
@@ -17,19 +16,18 @@ import java.util.List;
 @RequestMapping("/admin")
 public class AdminController {
 
-    private final UserService userServiceImpl;
+    private final UserService userService;
     private final RoleService roleService;
 
     @Autowired
-    public AdminController(UserService userServiceImpl, RoleService roleService, RoleRepository roleRepository) {
-        this.userServiceImpl = userServiceImpl;
+    public AdminController(UserService userServiceImpl, RoleService roleService) {
+        this.userService = userServiceImpl;
         this.roleService = roleService;
-
     }
 
     @GetMapping
     public String showUsers(Model model) {
-        List<User> listUsers = userServiceImpl.getUsers();
+        List<User> listUsers = userService.getUsers();
         model.addAttribute("users", listUsers);
         return "users/showAllUsers";
     }
@@ -42,25 +40,26 @@ public class AdminController {
     }
 
     @PostMapping("/saveUser")
-    public String saveUser(@ModelAttribute("user") @Valid User user,
+    public String saveUser(Model model, @ModelAttribute("user") @Valid User user,
                            BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("rolesList", roleService.findAll());
             return "users/saveUser";
         }
-        userServiceImpl.save(user);
+        userService.save(user);
         return "redirect:/admin";
     }
 
     @PatchMapping("/update/{id}")
     public String updateUserForId(@PathVariable("id") long id, Model model) {
-        model.addAttribute("user", userServiceImpl.getUser(id));
+        model.addAttribute("user", userService.getUser(id));
         model.addAttribute("rolesList", roleService.findAll());
         return "users/saveUser";
     }
 
     @DeleteMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") long id) {
-        userServiceImpl.deleteUser(id);
+        userService.deleteUser(id);
         return "redirect:/admin";
     }
 }
