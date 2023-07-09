@@ -1,0 +1,65 @@
+body {
+    background-color: #f8f9fa;
+}
+
+.titleAdminPanel {
+    font-size: 48px;
+    margin-top: 10px;
+}
+
+.pre-sidebar {
+    margin-top: 15px;
+    margin-left: -10px;
+}
+
+.col-md-10 {
+    background-color: #f8f9fa;
+}
+
+.content {
+    margin-right: 20px;
+}
+
+.tab-content {
+    border: 1px solid #dfdfdf;
+    border-radius: 5px;
+}
+
+.allUserStyle, .addNewUser {
+    margin: 8px 8px 8px 20px;
+}
+
+
+.table-containerT {
+    border-top: 1px solid #dfdfdf;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.table-wrapper {
+    margin: 20px 20px 20px 20px;
+    border-top: 1px solid #dfdfdf;
+    border-radius: 5px;
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+}
+
+.form-wrapper-new-user {
+    margin-top: 15px;
+}
+
+label {
+    font-weight: bold;
+}
+
+#button-add-new-user {
+    margin: 15px 15px 35px 15px;
+}
+
+.error {
+    color: red;
+}
+

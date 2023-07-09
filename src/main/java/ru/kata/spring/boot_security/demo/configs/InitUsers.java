@@ -3,14 +3,14 @@ package ru.kata.spring.boot_security.demo.configs;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import ru.kata.spring.boot_security.demo.models.Role;
-import ru.kata.spring.boot_security.demo.models.User;
-import ru.kata.spring.boot_security.demo.repository.RoleRepository;
-import ru.kata.spring.boot_security.demo.repository.UserRepository;
+import ru.kata.spring.boot_security.demo.model.Role;
+import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.util.List;
+import java.util.Set;
 
 @Configuration
 public class InitUsers {
@@ -36,12 +36,12 @@ public class InitUsers {
         roleRepository.save(adminRole);
         roleRepository.save(userRole);
 
-        User adminUser = new User("admin", "admin", (byte) 30, "admin@mail.ru", passwordEncoder.encode("100"));
-        adminUser.setRoles(List.of(adminRole, userRole));
+        User adminUser = new User("admin", "admin", 30, "admin@mail.ru",
+                passwordEncoder.encode("100"), Set.of(userRole, adminRole));
         userRepository.save(adminUser);
 
-        User regularUser = new User("user", "user", (byte) 30, "user@mail.ru", passwordEncoder.encode("100"));
-        regularUser.setRoles(List.of(userRole));
+        User regularUser = new User("user", "user", 30, "user@mail.ru",
+                passwordEncoder.encode("100"), Set.of(userRole));
         userRepository.save(regularUser);
     }
 }
